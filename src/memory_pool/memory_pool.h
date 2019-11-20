@@ -7,7 +7,9 @@
 #include <cstdint>
 #include <cstdarg>
 #include <functional>
-#include "../utils/mutex.h"
+#include <utility>
+#include <type_traits>
+//#include "../utils/mutex.h"
 
 
 /*
@@ -54,20 +56,20 @@ public:
   memory_pool() noexcept;
   memory_pool(const memory_pool& other) noexcept;
   memory_pool(const memory_pool&& other) noexcept;
-  //template <typename  
+    //template <typename  
   
   ~memory_pool() noexcept;
 
   memory_pool& operator=(const memory_pool&) = delete;
-  memory_pool& operator=(const memory_pool&&) = delete;i
+  memory_pool& operator=(const memory_pool&&) = delete;
 
-  pointer get_address(reference ref) const noexcept;
-  const_pointer get_address(const reference ref) const noexcept;
+  pointer get_address(reference ref) const noexcept; 
+  //const_pointer get_address(const reference ref) const noexcept;
 
   pointer allocate(size_type size = 1, const_pointer hint = 0);
   void deallocate(pointer ptr, size_type size = 1);
 
-  size_type max_size() const noexcept;
+  //size_type max_size() const noexcept;
 
   // 调用构造函数
   template <typename U, typename... Args>
@@ -79,7 +81,7 @@ public:
   template <typename... Args>
   pointer create_element(Args&&... args);
 
-  void delete_elemet(pointer ptr);
+  void delete_element(pointer ptr);
 
 
 private:
@@ -107,13 +109,14 @@ private:
  
   // 指向当前内存区域的最后一个对象槽
   slot_ptr last_slot_;
- 
+
   // 指向当前内存区域中的空闲对象槽
-  slot_ptr_ free_slot_;
+  slot_ptr free_slot_;
 
 private:
-  size_type padding_ptr(data_pr_ p, size_type align) const noexcept;
+  size_type padding_ptr(data_ptr p, size_type align) const noexcept;
   void allocate_block();
 };
 
+#include "memory_pool.cpp"
 #endif
