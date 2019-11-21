@@ -2,7 +2,7 @@
 #define _MUTEX_LOCK_H_
 
 #include <pthread.h>
-#include <sdtio.h>
+#include <stdio.h>
 
 // mutex_lock这个类主要是封装了mutex常用的四个操作
 class mutex_lock {
@@ -16,7 +16,7 @@ public:
 
   ~mutex_lock() {
     pthread_mutex_lock(&mutex_);
-    phtread_mutex_destory(&mutex_);
+    pthread_mutex_destroy(&mutex_);
   }
 
   void lock() {
@@ -41,7 +41,7 @@ private:
 class mutex_lock_guard {
 public:
   mutex_lock_guard(const mutex_lock_guard&) = delete;
-  mutex_lock_gurad& operator=(const mutex_lock_guard&) = delete;
+  mutex_lock_guard& operator=(const mutex_lock_guard&) = delete;
 
   explicit mutex_lock_guard(mutex_lock& mutex)
     : mutex_(mutex) {
